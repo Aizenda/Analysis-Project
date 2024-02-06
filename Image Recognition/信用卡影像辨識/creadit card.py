@@ -103,20 +103,20 @@ for (i, (gX, gY, gW, gH)) in enumerate(locs):
 	# initialize the list of group digits
 	groupOutput = []
 
-	# 根据坐标提取每一个组
+	# 根據座標提取每一个组
 	group = gray[gY - 5:gY + gH + 5, gX - 5:gX + gW + 5]
 	cv_show('group',group)
-	# 预处理
+	# 預處理
 	group = cv2.threshold(group, 0, 255,
 		cv2.THRESH_BINARY | cv2.THRESH_OTSU)[1]
 	cv_show('group',group)
-	# 计算每一组的輪廓
+	# 計算每一組的輪廓
 	digitCnts,hierarchy = cv2.findContours(group.copy(), cv2.RETR_EXTERNAL,
 		cv2.CHAIN_APPROX_SIMPLE)
 	digitCnts =imutils.contours.sort_contours(digitCnts,
 		method="left-to-right")[0]
 
-	# 計算每一组中的每一个数值
+	# 計算每一组中的每一個數值
 	for c in digitCnts:
 		# 找到當前輪廓大小，resize成合適的的大小
 		(x, y, w, h) = cv2.boundingRect(c)
@@ -124,10 +124,10 @@ for (i, (gX, gY, gW, gH)) in enumerate(locs):
 		roi = cv2.resize(roi, (57, 88))
 		cv_show('roi',roi)
 
-		# 计算匹配得分
+		# 計算匹配得分
 		scores = []
 
-		# 在模板中计算每一得分
+		# 在模板中計算每一得分
 		for (digit, digitROI) in digits.items():
 			# 模板匹配
 			result = cv2.matchTemplate(roi, digitROI,
